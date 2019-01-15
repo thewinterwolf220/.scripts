@@ -1,30 +1,25 @@
 #!/usr/bin/env bash
 
-cd ~/Music;
-numberOfSongsOld=`expr $((ls -1A) | wc -l ) - 1`;
-toDownload=`cat toDownload.txt | wc -l`
+cd ~/Music
 
-i=1;
+numberOfSongsOld=`expr $((ls -1A) | wc -l ) - 1`
 
-all_songs=`cat toDownload.txt`
+songsToDownload=`sed '/^\s*$/d' toDownload.txt`
 
-for song in $all_songs;
+toDownload=`grep -cvx '[[:space:]]*' toDownload.txt`
+
+i=1
+
+for song in $songsToDownload 
 do
-	youtube-dl -x --audio-format mp3 $song > /dev/null 2>&1;
-	echo Downloading song $i out of $toDownload;
+    echo Downloading song $i out of $toDownload
+    youtube-dl -x --audio-format mp3 $song > /dev/null 2>&1
 	i=`expr $i + 1`
 done
 
 numberOfSongsNow=`expr $((ls -1A) | wc -l ) - 1`
 
-downloaded=`expr $numberOfSongsNow - $numberOfSongsOld`
-
-if [ $downloaded -eq $toDownload ]
-then
-	exit 1
+if [ $numberOfSongsNow -eq $(expr $numberOfSongsOld + $toDownload ) ]; then
+    echo > toDownload.txt
 fi
-
-echo You currently have $numberOfSongsNow songs in your Music folder
-
-echo >> toDownload.txt
 
