@@ -1,17 +1,21 @@
 #!/usr/bin/env bash
 
+configFile="playlist.txt"
+
 cd ~/Music
 
+if [ ! -f $configFile  ]; then
+    echo "File playlist.txt not found"
+    echo "Please create playlist.txt in ~/Music and fill it with URLs"
+    exit 1
+fi
+
 numberOfSongsOld=`expr $((ls -1A) | wc -l ) - 1`
-
-songsToDownload=`sed '/^\s*$/d' toDownload.txt`
-
-toDownload=`grep -cvx '[[:space:]]*' toDownload.txt`
+songsToDownload=`sed '/^\s*$/d' $configFile`
+toDownload=`grep -cvx '[[:space:]]*' $configFile`
 
 i=1
-
-for song in $songsToDownload 
-do
+for song in $songsToDownload; do
     echo Downloading song $i out of $toDownload
     youtube-dl -x --audio-format mp3 $song > /dev/null 2>&1
 	i=`expr $i + 1`
@@ -20,6 +24,6 @@ done
 numberOfSongsNow=`expr $((ls -1A) | wc -l ) - 1`
 
 if [ $numberOfSongsNow -eq $(expr $numberOfSongsOld + $toDownload ) ]; then
-    echo > toDownload.txt
+    echo > $configFile
 fi
 
