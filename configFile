@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-enscript ~/.config/i3/config -p - | ps2pdf - > ~/tmp.pdf
-if [ -f tmp.pdf ]; then
+enscript ~/.config/i3/config -p - | ps2pdf - > ~/i3config.pdf
+if [ -f i3config.pdf ]; then
     echo 'File converted'
-    evince ~/tmp.pdf &
+    evince ~/i3config.pdf &
 else
     echo 'File not created'
+    exit 1
 fi
 #rm tmp.pdf
