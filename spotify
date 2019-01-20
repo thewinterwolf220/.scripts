@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+status=$(spotifycli --playbackstatus)
+
+if [ "$status" = ▶ ]; then
+    status='▮▮'
+else
+    status='▶'
+fi
+
+song=$(spotifycli --song)
+artist=$(spotifycli --artistshort)
+
+echo "$status $song - $artist"

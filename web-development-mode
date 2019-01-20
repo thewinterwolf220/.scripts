@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+firefox & gnome-terminal & vscode ~/WebProjects/new.js &
+ 

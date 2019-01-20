@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+status=$(sudo protonvpn-cli --status | grep ProtonVPN | cut -d ":" -f2)
+
+# Leading whitespace is not random
+if [ "$status" = " Not Running" ]; then
+    echo 'ProtonVPN is not connected, connecting to the fastest'
+    sudo protonvpn-cli --fastest-connect
+
+else
+    echo 'ProtonVPN is connected'
+    sudo protonvpn-cli --disconnect
+fi
