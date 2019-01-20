@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
+
 enscript ~/.config/i3/config -p - | ps2pdf - > ~/i3config.pdf
-if [ -f i3config.pdf ]; then
-    echo 'File converted'
-    evince ~/i3config.pdf &
-else
-    echo 'File not created'
-    exit 1
+enscript ~/.config/i3blocks/i3blocks.conf -p - | ps2pdf - > ~/i3blocks.pdf
+
+if [ "$1" = "config" ]; then
+    zathura ~/i3config.pdf &
+elif [ "$1" = "i3blocks" ]; then
+    zathura ~/i3blocks.pdf &
 fi
-#rm tmp.pdf

@@ -1,14 +1,20 @@
 #!/usr/bin/env bash
 
-status=$(spotifycli --playbackstatus)
+#isSpotifyRunning=
 
-if [ "$status" = ▶ ]; then
-    status='▮▮'
+playbackStatus=$(spotifycli --playbackstatus)
+
+if [ "$playbackStatus" = ▶ ]; then
+    playbackStatus='▮▮'
 else
-    status='▶'
+    playbackStatus='▶'
 fi
 
 song=$(spotifycli --song)
-artist=$(spotifycli --artistshort)
+artist=$(spotifycli --artist)
 
-echo "$status $song - $artist"
+if [ "$song" = "Spotify" ] && [ artist ]; then
+    echo "$playbackStatus Annoying Advertisement"
+else
+    echo "$playbackStatus $song - $artist"
+fi
