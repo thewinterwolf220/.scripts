@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# Takes an argument which is the text file to transform into a pdf.
+if [ $# -eq 0 ]; then
+    echo "No argument supplied"
+    notify-send "<span font='16px'><b>No argument supplied</b></span>"-t 2000
+    exit 1
+fi
+
+if [ -f $1 ]; then
+    fileName="`basename $1`.pdf"
+    # Use it to create a corrispondent pdf file.
+    enscript $1 -p - | ps2pdf - > /tmp/$fileName
+    zathura /tmp/$fileName &
+fi
+
