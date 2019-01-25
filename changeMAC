@@ -15,7 +15,7 @@ print_help () {
 	echo "	-p,	--protonvpn		  Disables and restarts protonvpn"
 	echo "  -R, --restore       Restores the original MAC";
 	echo "  -c, --current       Shows the current MAC Address";
-  echo "  -s, --set           Set custom MAC address"
+    echo "  -s, --set           Set custom MAC address"
 	echo "  -h, --help          Shows this";
 	echo "  -i, --info          Displays other info"; echo
 	echo "Example: "$0" -r wlan0";
