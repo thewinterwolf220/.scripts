@@ -3,10 +3,9 @@
 # Whatever works, man
 isSpotifyRunning=$(ps -C spotify | grep -v CMD | wc -l)
 
-
-if [ isSpotifyRunning -eq 0 ]; then
+if [ $isSpotifyRunning -eq 0 ]; then
     echo ""
-else 
+else
     playbackStatus=$(spotifycli --playbackstatus)
 
     if [ "$playbackStatus" = ▶ ]; then
