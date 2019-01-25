@@ -3,12 +3,10 @@
 # WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
 
 count=$(apt list --upgradable 2>/dev/null | wc -l | grep -Eo '[0-9]{1,4}')
-
 count=`expr $count - 1`
 
 if [ $count -eq 0 ]; then
-    echo "No upgrades"
+    echo "No pending upgrades"
 else
     echo $count to upgrade
 fi
-
