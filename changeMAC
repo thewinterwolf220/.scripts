@@ -1,0 +1,120 @@
+#!/usr/bin/envbash
+
+usage () {
+	echo "MAC Changer 1.0";
+	echo "Usage: "$0" <options> [-p] wlan0"; 
+	echo;
+	echo "Try -h or --help for more options.";
+}
+
+print_help () {
+	echo "Usage: "$0" [options] [-p] wlan0"; echo;
+	echo "Options";
+	echo "  -v, --vendor        Sets same vendor MAC";
+	echo "  -r, --random        Sets a fully random MAC [nightly]";
+	echo "	-p,	--protonvpn		Disables and restarts protonvpn"
+	echo "  -R, --restore       Restores the original MAC";
+	echo "  -c, --current       Shows the current MAC Address";
+  	echo "  -s, --set           Set custom MAC address"
+	echo "  -h, --help          Shows this";
+	echo "  -i, --info          Displays other info"; echo
+	echo "Example: "$0" -r wlan0";
+	echo "Report bugs to marcocali@protonmail.com"; echo;
+}
+
+print_old () {
+  echo "Current MAC:	$(ip link show wlan0 | cut -d\  -f6 | tail -n 1)";
+}
+print_new () {
+  echo "New MAC:	$(ip link show wlan0 | cut -d\  -f6 | tail -n 1)";
+}
+
+print_info () {
+  echo Known bugs: there are no known bugs.;
+  echo This version also implements protonvpn.;
+  echo This script is based on ifconfig, ip link and macchanger;
+  echo If you need support or find bugs, contact me at marcocali@protonmail.com;
+}
+
+function macchangerProcedure {
+  echo "[*] Temporarily disabling protonvpn"
+  if [ "$2" == "-p" ] ; then
+	 sudo protonvpn-cli -d > /dev/null; 
+  fi
+
+  echo "[-] Turning off wlan0";
+  sudo ifconfig wlan0 down > /dev/null;
+
+  print_old;
+  sudo macchanger "$1" wlan0 > /dev/null;
+  print_new;
+
+  echo "[+] Turning on wlan0";
+  sudo ifconfig wlan0 up > /dev/null;
+
+  echo "[*] Restarting network-manager service";
+  sudo service network-manager restart > /dev/null;
+ 
+  if [ "$2" == "-p" ] ; then
+	sleep 10; #Delay to wait for reconnection to wifi
+	sudo protonvpn-cli -f;
+	echo "[#] Reconnect to protonVPN"
+  fi 
+}
+
+function setMAC {
+  echo "[-] Turning off wlan0";
+  sudo ifconfig wlan0 down > /dev/null;
+
+  print_old;
+  echo "[*] setting $1 as current MAC";
+  sudo ip link set dev wlan0 address $1 > /dev/null;
+
+  print_new;
+
+  echo "[+] Turning on wlan0";
+  sudo ifconfig wlan0 up > /dev/null;
+
+  echo "[*] Restarting network-manager service";
+  sudo service network-manager restart > /dev/null;
+}
+
+
+main () {
+
+	if [ "$1" == "" ] ; then
+		usage;
+
+	elif [ "$1" == "-r" ] || [ "$1" == "--random" ] ; then
+		macchangerProcedure "-r";
+
+	elif [ "$1" == "-v" ] || [ "$1" == "--vendor" ] ; then
+		macchangerProcedure "-e";
+
+	elif [ "$1" == "--restore" ] || [ "$1" == "-R" ] ; then
+		macchangerProcedure "-p";
+		sudo service network-manager restart
+
+  elif [ "$1" == "-s" ] || [ "$1" == "--set" ] ; then
+    echo "[*] Set MAC address manually XX:XX:XX:XX:XX:XX";
+    read newMac;
+    setMAC "$newMac"
+
+	elif [ "$1" == "-c" ] || [ "$1" == "--current" ] ; then
+		myMAC=$(ip link show wlan0 | cut -d\  -f6 | tail -n 1);
+		echo "The current MAC Address is $myMAC"
+
+	elif [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
+		print_help;
+
+	elif [ "$1" == "-i" ] || [ "$1" == "--info"  ] ; then
+		print_info;
+
+	else
+		echo "Option not valid"
+		print_help;
+
+	fi
+}
+
+main "$1";
