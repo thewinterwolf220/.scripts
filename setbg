@@ -3,14 +3,9 @@
 # Sets the background given as argument.
 
 # Check if file exists
-if [ -f $1 ]; then 
+if [ -f $1 ]; then
     # Check if file is an image
     if [[ $1 == *.jpg ]] || [[ $1 == *.png ]]; then
-        notify-send "Changing wallpaper" -t 1000
         feh --bg-scale $1
-    else
-        notify-send "File <i>$1</i> is not an image" -t 1000
     fi
-else
-    notify-send "The file <i>$1</i> doesn't exist" -t 1000
 fi
