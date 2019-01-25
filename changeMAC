@@ -1,21 +1,21 @@
-#!/usr/bin/envbash
+#!/usr/bin/env bash
 
 usage () {
-	echo "MAC Changer 1.0";
-	echo "Usage: "$0" <options> [-p] wlan0"; 
-	echo;
-	echo "Try -h or --help for more options.";
+	echo "MAC Changer 1.0"
+	echo "Usage: "$0" <options> [-p] wlan0"
+	echo
+	echo "Try -h or --help for more options."
 }
 
 print_help () {
 	echo "Usage: "$0" [options] [-p] wlan0"; echo;
-	echo "Options";
+	echo "Options"
 	echo "  -v, --vendor        Sets same vendor MAC";
 	echo "  -r, --random        Sets a fully random MAC [nightly]";
-	echo "	-p,	--protonvpn		Disables and restarts protonvpn"
+	echo "	-p,	--protonvpn		  Disables and restarts protonvpn"
 	echo "  -R, --restore       Restores the original MAC";
 	echo "  -c, --current       Shows the current MAC Address";
-  	echo "  -s, --set           Set custom MAC address"
+  echo "  -s, --set           Set custom MAC address"
 	echo "  -h, --help          Shows this";
 	echo "  -i, --info          Displays other info"; echo
 	echo "Example: "$0" -r wlan0";
