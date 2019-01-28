@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Files to listen to for changes:
+#      file                    destination
+# ~/configs/i3/config 	  -> ~/.config/i3/config
+# ~/configs/bashrc         -> ~/.bashrc
+# ~/configs/i3blocks.conf  -> ~/.config/i3blocks/i3blocks.conf
+# ~/configs/ranger/*	  -> ~/.config/ranger/
+
+cp ~/configs/i3-config/config 	~/.config/i3/config
+cp ~/configs/bashrc 		~/.bashrc
+cp ~/configs/i3blocks.conf	~/.config/i3blocks/i3blocks.conf
+cp ~/configs/ranger/* 		~/.config/ranger/
