@@ -6,6 +6,8 @@
 if [ -f $1 ]; then
     # Check if file is an image
     if [[ $1 == *.jpg ]] || [[ $1 == *.png ]]; then
-        feh --bg-scale $1
+        fullpath=`readlink -f $1`
+        feh --bg-scale $fullpath
     fi
 fi
+
