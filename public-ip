@@ -11,7 +11,7 @@ if [[ $protonvpnStatus == "Running" && $openvpnStatus == "Running" ]]; then
     echo 🔐 $ip;
     
 elif [[ $torStatus == 'Congratulations.' ]]; then
-    echo 🔗secure $ip
+    echo 🔗 $ip
     
 else
     echo 🌐 $ip
