@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+ip=`wget -qO - icanhazip.com`
+
+protonvpnStatus=`sudo protonvpn-cli -status | grep ProtonVPN | cut -d ":" -f2 | sed -e 's/^[ \t]*//' | head -n 1`
+openvpnStatus=`sudo protonvpn-cli -status | grep OpenVPN | cut -d ":" -f2 | sed -e 's/^[ \t]*//' | head -n 1`
+
+
+if [[ $protonvpnStatus == "Running" && $openvpnStatus == "Running" ]]; then
+    echo $ip 🔐
+else
+    echo $ip 🌐
+fi
