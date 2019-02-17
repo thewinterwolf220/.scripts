@@ -5,9 +5,14 @@ ip=`wget -qO - icanhazip.com`
 protonvpnStatus=`sudo protonvpn-cli -status | grep ProtonVPN | cut -d ":" -f2 | sed -e 's/^[ \t]*//' | head -n 1`
 openvpnStatus=`sudo protonvpn-cli -status | grep OpenVPN | cut -d ":" -f2 | sed -e 's/^[ \t]*//' | head -n 1`
 
+torStatus=`curl -s https://check.torproject.org | grep 'Congratulations' | head -n 1 | sed -e 's/^[ \t]*//' | cut -d " " -f1`
 
 if [[ $protonvpnStatus == "Running" && $openvpnStatus == "Running" ]]; then
-    echo $ip 🔐
+    echo 🔐 $ip;
+    
+elif [[ $torStatus == 'Congratulations.' ]]; then
+    echo 🔗secure $ip
+    
 else
-    echo $ip 🌐
+    echo 🌐 $ip
 fi
