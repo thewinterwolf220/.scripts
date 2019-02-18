@@ -2,4 +2,4 @@
 
 
 ip=`ifconfig wlp2s0 | grep inet | cut -d " " -f10 | head -n 1`
-echo $ip
+echo $ip 📍

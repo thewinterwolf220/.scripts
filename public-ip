@@ -8,11 +8,9 @@ openvpnStatus=`sudo protonvpn-cli -status | grep OpenVPN | cut -d ":" -f2 | sed 
 torStatus=`curl -s https://check.torproject.org | grep 'Congratulations' | head -n 1 | sed -e 's/^[ \t]*//' | cut -d " " -f1`
 
 if [[ $protonvpnStatus == "Running" && $openvpnStatus == "Running" ]]; then
-    echo 🔐 $ip;
-    
+    echo $ip 🔐
 elif [[ $torStatus == 'Congratulations.' ]]; then
-    echo 🔗 $ip
-    
+    echo $ip 🔗
 else
-    echo 🌐 $ip
+    echo $ip 🌐
 fi
