@@ -3,19 +3,21 @@
 weather=`curl -Ss 'wttr.in/palermo?0&T&Q' | cut -c 16- | head -n 2`;
 
 if [[ $weather =~ .*(s|S)unny.* ]]; then
-    echo ☀️  $weather
+    echo ☀️ $weather
 elif [[ $weather =~ .*(c|C)lear.* ]]; then
     echo 🌘 $weather
 elif [[ $weather =~ .*(r|R)ain.* ]]; then
-    echo 🌧️  $weather
+    echo 🌧️ $weather
 elif [[ $weather =~ .*Partly\ cloudy.* ]]; then
-    echo 🌤️  $weather
+    echo 🌤️ $weather
 elif [[ $weather =~ .*Overcast.* || $weather =~ .*Cloudy.* ]]; then
-    echo ☁️  $weather
-elif [[ $weather =~ .*Mist.* ]]; then
-    echo 🌫️  $weather
-#elif [[ $weather =~ .*(s|S)now.* ]]; then
-#    echo
+    echo ☁️ $weather
+elif [[ $weather =~ .*(Mist|Fog).* ]]; then
+    echo 🌫️ $weather
+elif [[ $weather =~ .*Light\ rain\ shower.* ]]; then
+    echo 🌦 $weather
+elif [[ $weather =~ .*(s|S)now.* ]]; then
+    echo 🌨️ $weather
 else
-    echo 🌦  $weather
+    echo $weather
 fi
